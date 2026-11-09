@@ -1,0 +1,6 @@
+* text=auto
+lessons/pack.json -text
+lessons/pack.sig -text
+*.ttf binary
+*.ico binary
+*.png binary

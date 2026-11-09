@@ -1,0 +1,64 @@
+{
+  "id": "openrouter-account",
+  "track": "platforms",
+  "order": 2,
+  "title": "فتح حساب OpenRouter وشحن الرصيد",
+  "summary": "حساب واحد ورصيد واحد يفتحان لك مئات النماذج للصور والفيديو والصوت. تسجّل بنفسك، وأنا أشير لك على الأزرار فقط.",
+  "minutes": 6,
+  "requires": "متصفح مفتوح، وبريد إلكتروني أو حساب Google أو GitHub",
+  "companion": { "name": "قلم" },
+  "steps": [
+    {
+      "anchor": "center", "mood": "hello", "button": "يلا نبدأ",
+      "say": "**OpenRouter** بوابة وحدة لمئات النماذج: نص وصور وفيديو وصوت. حساب واحد ورصيد واحد، وبعدها نربطه بـ Claude في التدريب القادم. التسجيل وكلمة المرور والدفع كلها تسويها أنت بنفسك، وأنا أشير لك على الأزرار فقط."
+    },
+    {
+      "anchor": "center", "button": "فتحت الصفحة",
+      "say": "افتح متصفحك وأنشئ تبويبًا جديدًا، واكتب **openrouter.ai** في شريط العنوان ثم Enter. لما تظهر الصفحة الرئيسية اضغط الزر.",
+      "hint": "إن كان عندك حساب وأنت داخل عليه، اضغط «التالي» حتى نصل لخطوة الرصيد."
+    },
+    {
+      "say": "اضغط زر **Sign Up** أعلى الصفحة لإنشاء الحساب.",
+      "target": { "uia": { "process": "^(chrome|msedge|brave|firefox|opera|vivaldi)$", "window": "OpenRouter", "name": "^Sign ?[Uu]p$", "type": "Button|Hyperlink" } },
+      "notFound": "ما لقيت زر Sign Up. تأكد أن صفحة openrouter.ai ظاهرة أمامك وأنك غير مسجّل دخول. وإن كان عندك حساب فتخطَّ الخطوة.",
+      "wait": "click"
+    },
+    {
+      "say": "تختار طريقة التسجيل: **Continue with Google** أو **Continue with GitHub**، أو بريدك الإلكتروني مع كلمة مرور. بياناتك تكتبها أنت بنفسك، وأنا لا أسجّل ما تكتبه بلوحة المفاتيح.",
+      "target": { "uia": { "process": "^(chrome|msedge|brave|firefox|opera|vivaldi)$", "window": "OpenRouter", "name": "^Continue with Google$", "type": "Button|Hyperlink" } },
+      "notFound": "نافذة التسجيل ما ظهرت. اضغط Sign Up مرة ثانية، أو اضغط «أرني من جديد».",
+      "wait": "next"
+    },
+    {
+      "say": "اقرأ **الشروط** ووافق عليها بنفسك إن رضيت، ثم اضغط **Continue**. قد يرسل لك OpenRouter رمز تأكيد على بريدك: اكتبه بنفسك ولا تعطه لأحد.",
+      "target": { "uia": { "process": "^(chrome|msedge|brave|firefox|opera|vivaldi)$", "window": "OpenRouter", "name": "^Continue$", "type": "Button" } },
+      "wait": "next"
+    },
+    {
+      "anchor": "center", "button": "فتحت صفحة الرصيد",
+      "say": "بعد ما يكتمل تسجيلك، افتح في المتصفح صفحة الرصيد: **openrouter.ai/settings/credits**.",
+      "hint": "تستطيع أيضًا فتحها من قائمة حسابك داخل الموقع."
+    },
+    {
+      "say": "هذا زر **Add credits**. التوليد يُحسب من رصيدك: لكل صورة، أو لكل ثانية فيديو، أو لكل مليون حرف للصوت. ابدأ برصيد صغير للتجربة. بيانات الدفع تدخلها أنت بنفسك، وأنا لا أتعامل معها أبدًا.",
+      "target": { "uia": { "process": "^(chrome|msedge|brave|firefox|opera|vivaldi)$", "window": "OpenRouter", "name": "^Add credits$", "type": "Button" } },
+      "notFound": "ما لقيت زر Add credits. تأكد أنك داخل على حسابك وأن صفحة openrouter.ai/settings/credits ظاهرة.",
+      "wait": "next"
+    },
+    {
+      "anchor": "center", "button": "فتحت صفحة المفاتيح",
+      "say": "الخطوة الأخيرة اختيارية: افتح **openrouter.ai/settings/keys**. تحتاج مفتاح API فقط لو استعملت OpenRouter من برامج غير Claude."
+    },
+    {
+      "say": "زر **New key** ينشئ مفتاحًا جديدًا. المفتاح يظهر لك مرة وحدة، فاحفظه في مكان آمن، ولا ترسله لأحد، ولا تضعه في ملف تنشره أو ترفعه للإنترنت.",
+      "target": { "uia": { "process": "^(chrome|msedge|brave|firefox|opera|vivaldi)$", "window": "OpenRouter", "name": "^New key$", "type": "Button" } },
+      "notFound": "ما لقيت زر New key. افتح صفحة openrouter.ai/settings/keys وأنت داخل على حسابك.",
+      "wait": "next"
+    },
+    {
+      "anchor": "center", "button": "إنهاء",
+      "say": "تمام! حسابك جاهز. في التدريب القادم نربط **OpenRouter** بـ Claude حتى يطلب الصور والفيديو بنفسه."
+    }
+  ],
+  "outro": "أحسنت! أصبح عندك حساب OpenRouter جاهز. التدريب التالي: ربطه بـ Claude."
+}

@@ -1,0 +1,71 @@
+{
+  "id": "cc-interface",
+  "track": "claude-code",
+  "order": 1,
+  "title": "تعرّف على واجهة Claude Code",
+  "summary": "جولة على أزرار Claude Code الأساسية: مربع الطلب، النموذج، الأذونات، وألواح Terminal وFiles وChanges وBrowser. تجرّبها بنفسك واحدًا واحدًا.",
+  "minutes": 8,
+  "requires": "تطبيق Claude مفتوح على جلسة داخل تبويب Code",
+  "companion": { "name": "قلم" },
+  "steps": [
+    {
+      "anchor": "center", "mood": "hello", "button": "يلا نبدأ",
+      "say": "هلا فيك! أنا **قلم**، رفيقك في رحلة براعة. اليوم نتعرف على **Claude Code**، الأداة اللي نصنع بها محتوى الدورة كله. أوريك كل زر وش يسوي، وتجرّب أنت بنفسك."
+    },
+    {
+      "anchor": "center", "button": "فهمت",
+      "say": "أول شيء مهم: **Claude Code** مو الشات. يشتغل داخل مجلد على جهازك: يقرأ ملفاتك، ويكتب ملفات جديدة، ويشغّل برامج ويتأكد من نتيجتها بنفسه. أما الشات فنافذة محادثة لا تلمس ملفات جهازك."
+    },
+    {
+      "say": "هذا **مربع الطلب**. اكتب فيه طلبك بكلامك العادي. Enter يرسل الطلب، و Ctrl+Enter يضيفه للانتظار إذا كان Claude مشغولًا.",
+      "target": { "uia": { "process": "^claude$", "name": "^Prompt$", "type": "Edit" } },
+      "notFound": "ما لقيت مربع الطلب. افتح جلسة داخل تبويب Code وخل نافذة Claude ظاهرة، وأنا أعيد البحث.",
+      "wait": "next"
+    },
+    {
+      "say": "زر **+** تضيف منه ملفات وصورًا لرسالتك، حتى يشوفها Claude ويشتغل عليها.",
+      "target": { "uia": { "process": "^claude$", "name": "^Add$", "type": "Button" } },
+      "wait": "next"
+    },
+    {
+      "say": "هنا تختار **النموذج** ومستوى التفكير. الأقوى أبطأ ويستهلك من حدّك أكثر، فاختر على قد المهمة.",
+      "target": { "uia": { "process": "^claude$", "name": "^Model:", "type": "Button" } },
+      "wait": "next"
+    },
+    {
+      "say": "وهذا **وضع الأذونات**: يحدد كم حرية تعطي Claude قبل ما يسألك. ابدأ بوضع يسألك، وكل ما وثقت أكثر وسّعت له.",
+      "target": { "uia": { "process": "^claude$", "name": "^(Auto|Ask|Plan|Accept edits|Bypass permissions)$", "type": "Button" } },
+      "wait": "next"
+    },
+    {
+      "say": "الحين دورك: اضغط زر **Terminal**. هذا تيرمينال داخل الجلسة، يشغّل فيه Claude أوامره وتشوف أنت وش يصير.",
+      "target": { "uia": { "process": "^claude$", "name": "^Terminal$", "type": "Button" } },
+      "wait": "click"
+    },
+    {
+      "say": "ممتاز! اضغط الحين **Files**. يعرض ملفات المجلد اللي يشتغل فيه Claude، وتفتح أي ملف منها.",
+      "target": { "uia": { "process": "^claude$", "name": "^Files$", "type": "Button" } },
+      "wait": "click"
+    },
+    {
+      "say": "اضغط **Changes**. كل تعديل سوّاه Claude على ملفاتك يظهر هنا قبل ما تعتمده، فتراجعه بعينك.",
+      "target": { "uia": { "process": "^claude$", "name": "^Changes$", "type": "Button" } },
+      "wait": "click"
+    },
+    {
+      "say": "ثم **Browser**. متصفح صغير داخل التطبيق تشوف فيه الصفحة اللي بناها Claude قبل ما تنشرها.",
+      "target": { "uia": { "process": "^claude$", "name": "^Browser$", "type": "Button" } },
+      "wait": "click"
+    },
+    {
+      "say": "وأخيرًا **Session rail**: لوحة جانبية تعرض البيئة (المجلد اللي يشتغل فيه Claude)، وكم استهلكت من ذاكرة المحادثة، والموصلات المربوطة.",
+      "target": { "uia": { "process": "^claude$", "name": "^Session rail$", "type": "Button" } },
+      "wait": "click"
+    },
+    {
+      "anchor": "center", "button": "إنهاء",
+      "say": "خلصنا! لو أزعجتك أي لوحة، اضغط زرها مرة ثانية وتنقفل. في التدريب القادم نفتح حساب **OpenRouter** عشان نولّد الصور والفيديو."
+    }
+  ],
+  "outro": "أحسنت! تعرّفت على واجهة Claude Code وجمعت **{stars}** نجوم. جاهز لتدريب فتح حساب OpenRouter؟"
+}

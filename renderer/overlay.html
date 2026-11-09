@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'">
+<title>رفيق براعة</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<div id="ring" class="hidden"></div>
+
+<!-- الشخصية: قلم قصب بلا وجه. نقطة الأصل (0,0) = رأس القلم، والجسم يمتد للأعلى -->
+<div id="char">
+  <div class="bob">
+    <div class="fx-state">
+      <svg id="qalam" width="140" height="260" viewBox="-70 -240 140 260" overflow="visible" aria-hidden="true">
+        <defs>
+          <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#E7CF93" stop-opacity=".26"/>
+            <stop offset="1" stop-color="#E7CF93" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="gShaft" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#0E4A40"/>
+            <stop offset=".38" stop-color="#1F7A69"/>
+            <stop offset=".58" stop-color="#2F8A78"/>
+            <stop offset="1" stop-color="#0F5044"/>
+          </linearGradient>
+          <linearGradient id="gGold" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#86692C"/>
+            <stop offset=".35" stop-color="#EBD59B"/>
+            <stop offset=".62" stop-color="#BA9B5A"/>
+            <stop offset="1" stop-color="#7A5F26"/>
+          </linearGradient>
+          <linearGradient id="gNib" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#0B2A25"/>
+            <stop offset=".5" stop-color="#244F46"/>
+            <stop offset="1" stop-color="#0B2A25"/>
+          </linearGradient>
+        </defs>
+        <circle class="aura" cx="0" cy="-105" r="105" fill="url(#aura)"/>
+        <g class="pen">
+          <!-- الجسم -->
+          <path d="M -15 -188 Q -16 -140 -11.5 -62 L -8.5 -36 L 8.5 -36 L 11.5 -62 Q 16 -140 15 -188 Z" fill="url(#gShaft)"/>
+          <ellipse cx="0" cy="-188" rx="15" ry="5.5" fill="#0B3F36"/>
+          <ellipse cx="0" cy="-188.8" rx="9" ry="2.6" fill="#07251F"/>
+          <path d="M -8 -182 Q -9.5 -120 -6.4 -52" stroke="#9FD8C8" stroke-opacity=".45" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- حلقات ذهبية -->
+          <rect x="-15.6" y="-154" width="31.2" height="12" rx="3" fill="url(#gGold)"/>
+          <rect x="-14.2" y="-134" width="28.4" height="4.4" rx="2" fill="url(#gGold)"/>
+          <!-- نجمة ثمانية (ختم الهوية) -->
+          <g transform="translate(0,-96)">
+            <rect x="-8" y="-8" width="16" height="16" fill="url(#gGold)"/>
+            <rect x="-8" y="-8" width="16" height="16" fill="url(#gGold)" transform="rotate(45)"/>
+            <circle r="2.6" fill="#0E4A40"/>
+          </g>
+          <!-- السنّ -->
+          <path d="M -9 -38 L 9 -38 Q 8.4 -22 3.8 -8 L 0 0 L -1.2 -7 Q -7.6 -22 -9 -38 Z" fill="url(#gNib)"/>
+          <rect x="-9.6" y="-40" width="19.2" height="3.4" rx="1.6" fill="url(#gGold)"/>
+          <path d="M 0 -36 L 0 -5" stroke="#9FD8C8" stroke-opacity=".28" stroke-width="1"/>
+          <!-- قطرة الحبر عند الرأس -->
+          <circle class="bead" cx="0" cy="2" r="3.6" fill="#E7CF93"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div id="bubble" class="hidden">
+  <div class="meta">
+    <span id="chip" class="chip">1 / 6</span>
+    <span id="who" class="who">قلم</span>
+    <button class="xbtn" id="close" title="إنهاء الدرس والعودة للقائمة" aria-label="إنهاء الدرس">✕</button>
+  </div>
+  <p id="say"></p>
+  <p id="hint" class="hint"></p>
+  <div class="actions">
+    <button class="btn ghost" id="back">السابق</button>
+    <button class="btn primary" id="next">التالي</button>
+    <button class="btn ghost off" id="copy">📋 انسخ الـ Prompt</button>
+    <button class="btn ghost off" id="retry">أرني من جديد</button>
+    <button class="btn link" id="skip">تخطَّ هذه الخطوة</button>
+  </div>
+</div>
+
+<div id="hud" class="hidden"><b>براعة</b><span id="hudStep"></span><span class="stars">★ <i id="hudStars">0</i></span>
+  <button class="hbtn" id="hSkip">تخطَّ ⏭</button><button class="hbtn" id="hExit">✕ إنهاء</button></div>
+
+<div id="rec" class="hidden">
+  <i class="dot"></i><b id="recTitle"></b><span id="recCount">لا خطوات بعد</span><span id="recLast" class="recLast"></span>
+  <button class="btn ghost" id="recNote">+ نقطة شرح</button>
+  <button class="btn primary" id="recStop">إيقاف وحفظ</button>
+  <small>اضغط كما تفعل عادة، ولن تُسجَّل الكتابة. اختصارات: Ctrl+Alt+S إيقاف، Ctrl+Alt+K نقطة شرح</small>
+</div>
+
+<script src="overlay.js"></script>
+</body>
+</html>

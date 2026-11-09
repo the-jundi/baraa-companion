@@ -1,0 +1,7 @@
+{
+  "tracks": [
+    { "id": "claude-code", "order": 1, "title": "أولًا: Claude Code", "summary": "الأداة التي نعمل بها في كل الدورة. ابدأ من هنا." },
+    { "id": "platforms", "order": 2, "title": "ثانيًا: المنصات والربط", "summary": "حساب OpenRouter وربطه بـ Claude لتوليد الصور والفيديو والصوت." },
+    { "id": "production", "order": 3, "title": "ثالثًا: الإنتاج", "summary": "تطبيقات عملية تنتج محتوى حقيقيًا من الفكرة إلى الملف النهائي." }
+  ]
+}

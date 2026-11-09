@@ -1,0 +1,82 @@
+{
+  "name": "baraa-companion",
+  "version": "0.2.0",
+  "description": "Baraa Companion: a faceless pen character that guides learners through real apps, click by click.",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "pack": "node scripts/build-pack.mjs",
+    "dist": "electron-builder --win nsis --publish never"
+  },
+  "dependencies": {
+    "electron-updater": "6.8.11",
+    "koffi": "3.3.7"
+  },
+  "devDependencies": {
+    "electron-builder": "26.18.0",
+    "electron": "45.2.3"
+  },
+  "productName": "Baraa Companion",
+  "author": "Abdulwahab Al Jundi",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/the-jundi/baraa-companion",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the-jundi/baraa-companion.git"
+  },
+  "build": {
+    "appId": "com.thejundi.baraa-companion",
+    "productName": "Baraa Companion",
+    "copyright": "THE JUNDI CO LTD",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**",
+      "renderer/**",
+      "fonts/**",
+      "lessons/pack.json",
+      "lessons/pack.sig",
+      "tools/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "tools/**",
+      "**/node_modules/koffi/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "deleteAppDataOnUninstall": false,
+      "shortcutName": "رفيق براعة",
+      "artifactName": "Baraa-Companion-Setup-${version}.exe",
+      "runAfterFinish": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "the-jundi",
+        "repo": "baraa-companion"
+      }
+    ]
+  }
+}

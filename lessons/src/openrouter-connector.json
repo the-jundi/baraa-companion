@@ -1,0 +1,57 @@
+{
+  "id": "openrouter-connector",
+  "track": "platforms",
+  "order": 3,
+  "title": "ربط OpenRouter بـ Claude",
+  "summary": "تضيف OpenRouter موصلًا في تطبيق Claude، فتستطيع أن تطلب من Claude صورًا وفيديو وصوتًا يولّدها لك بنفسه.",
+  "minutes": 7,
+  "requires": "تطبيق Claude مفتوح، وحساب OpenRouter جاهز (التدريب السابق)",
+  "companion": { "name": "قلم" },
+  "steps": [
+    {
+      "anchor": "center", "mood": "hello", "button": "يلا نبدأ",
+      "say": "**الموصل** (Connector) جسر يخلي Claude يستعمل خدمة خارجية. نربطه بـ **OpenRouter** حتى تطلب أي صورة أو فيديو بكلامك العادي، ويولّدها Claude من رصيدك.",
+      "hint": "أسماء الأزرار قد تختلف قليلًا بحسب إصدار تطبيقك."
+    },
+    {
+      "say": "اضغط **Customize** في الشريط الجانبي. من هنا تدير الموصلات والمهارات.",
+      "target": { "uia": { "process": "^claude$", "name": "^Customize$", "type": "Button|Hyperlink|TabItem|ListItem" } },
+      "notFound": "ما ظهر زر Customize. افتح الشريط الجانبي (زر Hide sidebar أو Show sidebar) ومرّره لأعلى، وأنا أعيد البحث.",
+      "wait": "click"
+    },
+    {
+      "say": "اختر **Connectors**.",
+      "target": { "uia": { "process": "^claude$", "name": "^Connectors$", "type": "Button|Hyperlink|TabItem|MenuItem|ListItem" } },
+      "notFound": "ما لقيت Connectors. ابحث عنه في صفحة Customize، أو في Settings إن كان إصدارك يضعه هناك.",
+      "wait": "click"
+    },
+    {
+      "say": "اضغط زر **Add** ثم اختر **Add custom connector**. هذا موصل مخصص لخدمة ليست في القائمة الجاهزة.",
+      "target": { "uia": { "process": "^claude$", "name": "^(Add|Add custom connector|Add connector)$", "type": "Button|Hyperlink|MenuItem" } },
+      "notFound": "ما لقيت زر Add. في بعض الإصدارات يكون زر + بجانب كلمة Connectors.",
+      "wait": "click"
+    },
+    {
+      "anchor": "bottom-right", "button": "كتبتهما",
+      "say": "اكتب الاسم **OpenRouter**، ثم الصق رابط الخادم في حقل الرابط. اضغط الزر لأنسخه لك.",
+      "copy": "https://mcp.openrouter.ai/mcp",
+      "hint": "بعد اللصق (Ctrl+V) اضغط الزر الذي يضيف الموصل، ثم Connect."
+    },
+    {
+      "anchor": "center", "button": "وافقت",
+      "say": "سيفتح لك المتصفح صفحة تسجيل دخول OpenRouter. ادخل بحسابك، واقرأ الأذونات المطلوبة، ووافق عليها بنفسك إن رضيت. تقدر بعدها توقف الموصل أو تحذفه متى شئت من قائمة Connectors."
+    },
+    {
+      "say": "الحين نتأكد أنه اشتغل. انسخ هذا الطلب والصقه في مربع الطلب ثم أرسله.",
+      "copy": "اعرض لي أدوات OpenRouter المتاحة عندك، واكتب لكل أداة سطرًا يشرح ما تفعله بالعربية.",
+      "target": { "uia": { "process": "^claude$", "name": "^Prompt$", "type": "Edit" } },
+      "notFound": "ارجع لجلسة داخل تبويب Code أو Chat وخل مربع الطلب ظاهرًا.",
+      "wait": "next"
+    },
+    {
+      "anchor": "center", "button": "إنهاء",
+      "say": "إن ظهرت لك قائمة أدوات (توليد صور وفيديو وصوت ونحوها) فالربط نجح. وإن اشتكى Claude من عدم وجود الأدوات، افتح Connectors وتأكد أن OpenRouter متصل، وأعد الدخول إن طلب."
+    }
+  ],
+  "outro": "أحسنت! ربطت OpenRouter بـ Claude. في الجلسات القادمة تطلب منه توليد الصور والفيديو مباشرة."
+}
