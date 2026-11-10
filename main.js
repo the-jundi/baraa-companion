@@ -13,7 +13,7 @@ const updater = require('./src/updater');
 const mouse = require('./src/mouse');
 
 // ---------- args ----------
-const argv = process.argv.slice(2);
+const argv = process.argv.slice(app.isPackaged ? 1 : 2);   // packaged: [exe, ...args]; dev: [electron, '.', ...args]
 const argVal = (k, d) => { const a = argv.find((x) => x.startsWith('--' + k + '=')); return a ? a.slice(k.length + 3) : d; };
 const hasFlag = (k) => argv.includes('--' + k);
 const PLAY = argVal('play', '');                 // dev: start a lesson directly, e.g. --play=cc-interface
@@ -58,13 +58,12 @@ function createLauncher() {
 
 // ---------- tray ----------
 function trayIcon() {
-  const S = 32, buf = Buffer.alloc(S * S * 4);
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const d = Math.hypot(x - 15.5, y - 15.5), o = (y * S + x) * 4;
-    let c = null; if (d <= 14.5) c = d > 11.5 ? [0x5A, 0x9B, 0xBA] : [0x56, 0x63, 0x14];
-    if (c) { buf[o] = c[0]; buf[o + 1] = c[1]; buf[o + 2] = c[2]; buf[o + 3] = 255; }
-  }
-  return nativeImage.createFromBitmap(buf, { width: S, height: S });
+  // the same pen icon as the app (build/icon-tray.png, made by scripts/make-icon.js)
+  try {
+    const img = nativeImage.createFromPath(path.join(__dirname, 'build', 'icon-tray.png'));
+    if (!img.isEmpty()) return img.resize({ width: 32, height: 32, quality: 'best' });
+  } catch (_) { /* fall through */ }
+  return nativeImage.createEmpty();
 }
 function createTray() {
   try {
@@ -189,11 +188,30 @@ app.whenReady().then(async () => {
     try { const r = await trainer.explain(d, 'درس قصير يعرّف المتدرب على اللوحات الجانبية في تطبيق Claude Code.'); log('EXPLAIN OK ' + JSON.stringify(r)); } catch (e) { log('EXPLAIN FAIL ' + e.message); }
     app.quit(); return;
   }
+  if (argVal('selftest', '') === 'record') {     // dev check: record a click on our own launcher button, then play the draft back
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    createLauncher(); await sleep(1500); launcher.setAlwaysOnTop(true); launcher.focus(); await sleep(2000);
+    const proc = process.platform === 'win32' && app.isPackaged ? '^Baraa Companion$' : '^electron$';
+    const f = await uia.request({ cmd: 'find', process: proc, name: '^تحقق من التحديثات$', type: 'Button', nocover: true });
+    log('SELFTEST own button: ' + JSON.stringify(f));
+    if (!f.found) { app.quit(); return; }
+    const SetCursorPos = require('koffi').load('user32.dll').func('int __stdcall SetCursorPos(int x, int y)');
+    SetCursorPos(Math.round(f.x + f.w / 2), Math.round(f.y + f.h / 2));
+    await trainer.start('selftest'); await sleep(600);
+    await trainer.onDown(); await sleep(300);
+    const draft = trainer.stop();
+    log('SELFTEST draft steps: ' + JSON.stringify(draft.steps.map((s) => s.target || s.anchor)));
+    await runner.start(draft, { startAt: 1 }); await sleep(3000);
+    log('SELFTEST done');
+    runner.stop(false); lessons.deleteDraft(draft.id); app.quit(); return;
+  }
   if (LESSON_FILE || PLAY) {
     const lesson = LESSON_FILE ? JSON.parse(fs.readFileSync(path.resolve(LESSON_FILE), 'utf8')) : lessons.getLesson(PLAY);
     if (!lesson) { log('lesson not found'); } else { await startLesson(lesson, START_AT); }
   } else createLauncher();
-  if (AUTO_QUIT) setTimeout(() => app.quit(), AUTO_QUIT * 1000);
+  if (AUTO_QUIT) setTimeout(() => { log('auto-quit fired'); app.quit(); }, AUTO_QUIT * 1000);
 });
-app.on('will-quit', () => { globalShortcut.unregisterAll(); uia.stop(); });
+app.on('before-quit', () => log('before-quit'));
+app.on('will-quit', () => { log('will-quit'); globalShortcut.unregisterAll(); uia.stop(); });
+app.on('quit', (_e, code) => log('quit code ' + code));
 app.on('window-all-closed', () => { /* the overlay and launcher come and go; quitting is explicit */ });

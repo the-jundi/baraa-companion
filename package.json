@@ -7,7 +7,8 @@
   "scripts": {
     "start": "electron .",
     "pack": "node scripts/build-pack.mjs",
-    "dist": "electron-builder --win nsis --publish never"
+    "dist": "electron-builder --win nsis --publish never",
+    "icon": "electron scripts/make-icon.js"
   },
   "dependencies": {
     "electron-updater": "6.8.11",
@@ -40,8 +41,10 @@
       "fonts/**",
       "lessons/pack.json",
       "lessons/pack.sig",
-      "tools/**",
+      "tools/uia_server.ps1",
+      "tools/find_element.ps1",
       "build/icon.png",
+      "build/icon-tray.png",
       "package.json"
     ],
     "asarUnpack": [
@@ -57,8 +60,7 @@
           ]
         }
       ],
-      "icon": "build/icon.ico",
-      "signAndEditExecutable": false
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": true,
@@ -77,6 +79,11 @@
         "owner": "the-jundi",
         "repo": "baraa-companion"
       }
-    ]
+    ],
+    "electronLanguages": [
+      "en-US",
+      "ar"
+    ],
+    "compression": "maximum"
   }
 }

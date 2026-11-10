@@ -73,7 +73,8 @@ class Trainer {
 
   targetFrom(c) {
     const proc = c.process ? '^' + esc(c.process) + '$' : undefined;
-    if (c.name && c.type) return { uia: { process: proc, name: '^' + esc(c.name) + '$', type: c.type } };
+    const INTERACTIVE = ['Button', 'Hyperlink', 'TabItem', 'MenuItem', 'ListItem', 'CheckBox', 'RadioButton', 'ComboBox', 'Edit', 'SplitButton', 'TreeItem'];
+    if (c.name && INTERACTIVE.includes(c.type)) return { uia: { process: proc, name: '^' + esc(c.name) + '$', type: c.type } };
     // unnamed icon: remember where it sits inside its window
     const w = c.winRect, r = c.rect || [c.x - 12, c.y - 12, 24, 24];
     if (w && w[2] > 0 && w[3] > 0) return { win: { process: proc, rel: [+((r[0] - w[0]) / w[2]).toFixed(4), +((r[1] - w[1]) / w[3]).toFixed(4), +(r[2] / w[2]).toFixed(4), +(r[3] / w[3]).toFixed(4)] } };
